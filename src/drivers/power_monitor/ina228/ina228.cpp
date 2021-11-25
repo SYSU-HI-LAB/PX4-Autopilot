@@ -91,8 +91,7 @@ INA228::INA228(const I2CSPIDriverConfig &config, int battery_index) :
 		0.0,
 		false,
 		battery_status_s::BATTERY_SOURCE_POWER_MODULE,
-		0,
-		0.0
+		0
 	);
 }
 
@@ -320,8 +319,7 @@ INA228::collect()
 		(float) _current * _current_lsb,
 		success,
 		battery_status_s::BATTERY_SOURCE_POWER_MODULE,
-		0,
-		_actuator_controls.control[actuator_controls_s::INDEX_THROTTLE]
+		0
 	);
 
 	perf_end(_sample_perf);
@@ -391,8 +389,7 @@ INA228::RunImpl()
 			0.0f,
 			false,
 			battery_status_s::BATTERY_SOURCE_POWER_MODULE,
-			0,
-			0.0f
+			0
 		);
 
 		if (init() != PX4_OK) {
