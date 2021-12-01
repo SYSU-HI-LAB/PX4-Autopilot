@@ -75,8 +75,7 @@ VOXLPM::init()
 			hrt_absolute_time(),
 			0.0,
 			0.0,
-			false,
-			0
+			false
 		);
 	}
 
@@ -349,8 +348,7 @@ VOXLPM::measure()
 				_battery.updateBatteryStatus(tnow,
 							     _voltage,
 							     _amperage,
-							     true,
-							     0);
+							     true);
 			}
 
 		// fallthrough
@@ -376,8 +374,7 @@ VOXLPM::measure()
 				_battery.updateBatteryStatus(tnow,
 							     0.0,
 							     0.0,
-							     true,
-							     0);
+							     true);
 			}
 			break;
 
