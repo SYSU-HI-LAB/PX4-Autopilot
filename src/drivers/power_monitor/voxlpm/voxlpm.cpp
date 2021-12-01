@@ -72,11 +72,9 @@ VOXLPM::init()
 
 	if (_ch_type == VOXLPM_CH_TYPE_VBATT) {
 		_battery.setConnected(false);
-		_battery.updateBatteryStatus(
-			hrt_absolute_time(),
-			0.0,
-			0.0
-		);
+		_battery.updateVoltage(0.f);
+		_battery.updateCurrent(0.f);
+		_battery.updateBatteryStatus(hrt_absolute_time());
 	}
 
 	/* do I2C init, it will probe the bus for two possible configurations, LTC2946 or INA231 */
@@ -346,9 +344,9 @@ VOXLPM::measure()
 				_actuators_sub.copy(&_actuator_controls);
 
 				_battery.setConnected(true);
-				_battery.updateBatteryStatus(tnow,
-							     _voltage,
-							     _amperage);
+				_battery.updateVoltage(_voltage);
+				_battery.updateCurrent(_amperage);
+				_battery.updateBatteryStatus(tnow);
 			}
 
 		// fallthrough
@@ -372,9 +370,9 @@ VOXLPM::measure()
 		switch (_ch_type) {
 		case VOXLPM_CH_TYPE_VBATT: {
 				_battery.setConnected(true);
-				_battery.updateBatteryStatus(tnow,
-							     0.0,
-							     0.0);
+				_battery.updateVoltage(0.f);
+				_battery.updateCurrent(0.f);
+				_battery.updateBatteryStatus(tnow);
 			}
 			break;
 
