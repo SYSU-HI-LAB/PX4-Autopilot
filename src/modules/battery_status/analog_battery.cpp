@@ -84,6 +84,7 @@ AnalogBattery::updateBatteryStatusADC(hrt_abstime timestamp, float voltage_raw, 
 	Battery::updateVoltage(voltage_v);
 	Battery::updateCurrent(current_a);
 	Battery::updateBatteryStatus(timestamp);
+	Battery::publishBatteryStatus(Battery::getBatteryStatus());
 }
 
 bool AnalogBattery::is_valid()

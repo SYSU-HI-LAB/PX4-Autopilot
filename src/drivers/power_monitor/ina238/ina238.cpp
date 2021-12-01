@@ -72,6 +72,7 @@ INA238::INA238(const I2CSPIDriverConfig &config, int battery_index) :
 	_battery.updateVoltage(0.f);
 	_battery.updateCurrent(0.f);
 	_battery.updateBatteryStatus(hrt_absolute_time());
+	_battery.publishBatteryStatus(_battery.getBatteryStatus());
 }
 
 INA238::~INA238()
@@ -200,6 +201,7 @@ int INA238::collect()
 	_battery.updateVoltage(static_cast<float>(bus_voltage * INA238_VSCALE));
 	_battery.updateCurrent(static_cast<float>(current * _current_lsb));
 	_battery.updateBatteryStatus(hrt_absolute_time());
+	_battery.publishBatteryStatus(_battery.getBatteryStatus());
 
 	perf_end(_sample_perf);
 
@@ -257,6 +259,7 @@ void INA238::RunImpl()
 		_battery.updateVoltage(0.f);
 		_battery.updateCurrent(0.f);
 		_battery.updateBatteryStatus(hrt_absolute_time());
+		_battery.publishBatteryStatus(_battery.getBatteryStatus());
 
 		if (init() != PX4_OK) {
 			ScheduleDelayed(INA238_INIT_RETRY_INTERVAL_US);

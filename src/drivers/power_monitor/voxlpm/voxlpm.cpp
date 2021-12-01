@@ -75,6 +75,7 @@ VOXLPM::init()
 		_battery.updateVoltage(0.f);
 		_battery.updateCurrent(0.f);
 		_battery.updateBatteryStatus(hrt_absolute_time());
+		_battery.publishBatteryStatus(_battery.getBatteryStatus());
 	}
 
 	/* do I2C init, it will probe the bus for two possible configurations, LTC2946 or INA231 */
@@ -347,6 +348,7 @@ VOXLPM::measure()
 				_battery.updateVoltage(_voltage);
 				_battery.updateCurrent(_amperage);
 				_battery.updateBatteryStatus(tnow);
+				_battery.publishBatteryStatus(_battery.getBatteryStatus());
 			}
 
 		// fallthrough
@@ -373,6 +375,7 @@ VOXLPM::measure()
 				_battery.updateVoltage(0.f);
 				_battery.updateCurrent(0.f);
 				_battery.updateBatteryStatus(tnow);
+				_battery.publishBatteryStatus(_battery.getBatteryStatus());
 			}
 			break;
 

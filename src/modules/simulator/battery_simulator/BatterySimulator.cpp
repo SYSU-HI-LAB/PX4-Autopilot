@@ -103,6 +103,7 @@ void BatterySimulator::Run()
 	_battery.updateVoltage(vbatt);
 	_battery.updateCurrent(ibatt);
 	_battery.updateBatteryStatus(now_us);
+	_battery.publishBatteryStatus(_battery.getBatteryStatus());
 
 	perf_end(_loop_perf);
 }
