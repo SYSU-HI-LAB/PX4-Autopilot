@@ -71,11 +71,11 @@ VOXLPM::init()
 	int ret = PX4_ERROR;
 
 	if (_ch_type == VOXLPM_CH_TYPE_VBATT) {
+		_battery.setConnected(false);
 		_battery.updateBatteryStatus(
 			hrt_absolute_time(),
 			0.0,
-			0.0,
-			false
+			0.0
 		);
 	}
 
@@ -345,10 +345,10 @@ VOXLPM::measure()
 		case VOXLPM_CH_TYPE_VBATT: {
 				_actuators_sub.copy(&_actuator_controls);
 
+				_battery.setConnected(true);
 				_battery.updateBatteryStatus(tnow,
 							     _voltage,
-							     _amperage,
-							     true);
+							     _amperage);
 			}
 
 		// fallthrough
@@ -371,10 +371,10 @@ VOXLPM::measure()
 
 		switch (_ch_type) {
 		case VOXLPM_CH_TYPE_VBATT: {
+				_battery.setConnected(true);
 				_battery.updateBatteryStatus(tnow,
 							     0.0,
-							     0.0,
-							     true);
+							     0.0);
 			}
 			break;
 
