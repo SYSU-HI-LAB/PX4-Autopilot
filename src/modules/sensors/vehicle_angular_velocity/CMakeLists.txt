@@ -43,4 +43,5 @@ target_link_libraries(vehicle_angular_velocity
 		mathlib
 		px4_work_queue
 		sensor_calibration
+		adv_ctrl_lib
 )

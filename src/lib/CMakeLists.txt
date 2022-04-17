@@ -30,7 +30,7 @@
 # POSSIBILITY OF SUCH DAMAGE.
 #
 ############################################################################
-
+add_subdirectory(adv_control_lib)
 add_subdirectory(airspeed)
 add_subdirectory(avoidance)
 add_subdirectory(battery)

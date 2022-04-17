@@ -1,0 +1,15 @@
+git clone https://github.com/PX4/PX4-Autopilot.git --recursive
+git submodule sync --recursive
+git submodule update --init --recursive
+make px4_fmu-v5_default
+
+cmake -G Ninja ..
+
+
+## for unit tests, modify matrix_test to matrix, and uncommand the "include" in advanced_control_lib/CMakeList.txt
+mkdir build
+cd build
+cmake ..
+make
+
+in the build file path: ./test_butterworth_filter

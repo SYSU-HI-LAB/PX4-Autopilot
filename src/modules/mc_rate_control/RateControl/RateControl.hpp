@@ -40,7 +40,7 @@
 #pragma once
 
 #include <matrix/matrix/math.hpp>
-
+#include <adv_control_lib/butterworth_filter.h>
 #include <lib/mixer/MultirotorMixer/MultirotorMixer.hpp>
 #include <uORB/topics/rate_ctrl_status.h>
 
@@ -116,4 +116,7 @@ private:
 	// Feedback from control allocation
 	matrix::Vector<bool, 3> _control_allocator_saturation_negative;
 	matrix::Vector<bool, 3> _control_allocator_saturation_positive;
+
+	// TODO: LYU
+	// ButterworthFilter3rd _rate_sp_flt[3];
 };

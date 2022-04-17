@@ -120,6 +120,10 @@ private:
 	matrix::Vector3f _bias{};
 
 	matrix::Vector3f _angular_velocity{};
+	matrix::Vector3f _ang_vel_escnf{};
+	matrix::Vector3f _ang_vel_dnf{};
+	matrix::Vector3f _ang_vel_nf{};
+
 	matrix::Vector3f _angular_acceleration{};
 
 	matrix::Vector3f _angular_velocity_raw_prev{};

@@ -36,6 +36,7 @@
 #include <px4_platform_common/log.h>
 
 #include <uORB/topics/vehicle_imu_status.h>
+#include <adv_control_lib/butterworth_filter.h>
 
 using namespace matrix;
 
@@ -703,6 +704,8 @@ float VehicleAngularVelocity::FilterAngularVelocity(int axis, float data[], int 
 			}
 		}
 	}
+	// lyu: record the needed data esc rpm notch filter
+	_ang_vel_escnf(axis) = data[N-1];
 
 	// Apply dynamic notch filter from FFT
 	if (_dynamic_notch_fft_available) {
@@ -712,6 +715,8 @@ float VehicleAngularVelocity::FilterAngularVelocity(int axis, float data[], int 
 			}
 		}
 	}
+	// lyu: record the needed data fft dnf
+	_ang_vel_dnf(axis) = data[N-1];
 
 #endif // !CONSTRAINED_FLASH
 
@@ -724,6 +729,9 @@ float VehicleAngularVelocity::FilterAngularVelocity(int axis, float data[], int 
 	if (_notch_filter1_velocity[axis].getNotchFreq() > 0.f) {
 		_notch_filter1_velocity[axis].applyArray(data, N);
 	}
+
+	// lyu: record the needed data notch filter
+	_ang_vel_nf(axis) = data[N-1];
 
 	// Apply general low-pass filter (IMU_GYRO_CUTOFF)
 	_lp_filter_velocity[axis].applyArray(data, N);
@@ -898,6 +906,14 @@ bool VehicleAngularVelocity::CalibrateAndPublish(const hrt_abstime &timestamp_sa
 		// Angular velocity: rotate sensor frame to board, scale raw data to SI, apply calibration, and remove in-run estimated bias
 		_angular_velocity = _calibration.Correct(angular_velocity_uncalibrated) - _bias;
 		_angular_velocity.copyTo(v_angular_velocity.xyz);
+
+		// lyu: calibrate the recorded data and publish
+		_ang_vel_escnf = _calibration.Correct(_ang_vel_escnf) - _bias;
+		_ang_vel_escnf.copyTo(v_angular_velocity.xyz_esc_nf);
+		_ang_vel_dnf = _calibration.Correct(_ang_vel_dnf) - _bias;
+		_ang_vel_dnf.copyTo(v_angular_velocity.xyz_dnf);
+		_ang_vel_nf = _calibration.Correct(_ang_vel_nf) - _bias;
+		_ang_vel_nf.copyTo(v_angular_velocity.xyz_nf);
 
 		v_angular_velocity.timestamp = hrt_absolute_time();
 		_vehicle_angular_velocity_pub.publish(v_angular_velocity);
